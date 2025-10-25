@@ -229,6 +229,8 @@ export interface FGDExclude extends FGDNodeBase {type: "Exclude", name:string}
 export interface FGDMapSize extends FGDNodeBase {type: "MapSize", x:string, y:string}
 export interface FGDEntityGroup extends FGDNodeBase {type: "EntityGroup", name:string, meta?: Record<string,any>}
 export interface FGDVisGroupFilter extends FGDNodeBase {type: "VisGroupFilter", args: Record<string, any>}
+export interface FGDAutoVisGroup extends FGDNodeBase {type: "AutoVisGroup", name:string, groups:Record<string, Array<string>>}
+export interface FGDMaterialExclusion extends FGDNodeBase {type: "MaterialExclusion", list: Array<string>}
 export interface FGDParserMetadata extends FGDNodeBase {type: "__PARSER_METADATA__", meta: any}
 export interface FGDClassDecl extends FGDNodeBase {
 	type: "Class",
@@ -264,6 +266,8 @@ export type FGDNode = FGDNodeBase & (FGDVersion
 	| FGDMapSize
 	| FGDEntityGroup
 	| FGDVisGroupFilter
+	| FGDAutoVisGroup
+	| FGDMaterialExclusion
 	| FGDClassDecl
 	| FGDParserMetadata
 );
@@ -472,6 +476,15 @@ export function parse_prop_class(tokens: TokenStream, decl: FGDPropDecl) {
 		decl.class += ':' + tokens.expect_str('ident');
 	}
 	tokens.expect('paren', ')');
+	
+	if(tokens.match('ident', 'readonly')) {
+		if(!decl.metaprops) decl.metaprops = {};
+		decl.metaprops[tokens.current_str()] = true;
+	}
+	if(tokens.match('ident', 'report')) {
+		if(!decl.metaprops) decl.metaprops = {};
+		decl.metaprops[tokens.current_str()] = true;
+	}
 }
 
 export function parse_record(tokens: TokenStream, json: boolean = false) {
@@ -795,6 +808,39 @@ export function* parse(name: string, input: string): IterableIterator<FGDNode> {
 						type: 'MapSize', x, y
 					};
 				} continue loop;
+				case 'materialexclusion': {
+					var list: Array<string> = [];
+					tokens.expect('bracket', '[');
+					while(tokens.match('string')) {
+						list.push(tokens.current_str());
+					}
+					tokens.expect('bracket', ']');
+					yield {
+						span: [span_start,tokens.current()?.span[1] || span_start],
+						type: 'MaterialExclusion', list
+					};
+				} continue loop;
+				case 'autovisgroup': {
+					var groups: Record<string, Array<string>> = {};
+					tokens.expect('symbol', '=');
+					var name = tokens.expect_str('string');
+					tokens.expect('bracket', '[');
+					while(!tokens.match('bracket', ']')) {
+						var group_name = tokens.expect_str('string');
+						var group_list: Array<string> = [];
+						tokens.expect('bracket', '[');
+						while(!tokens.match('bracket', ']')) {
+							var group_item = tokens.expect_str('string');
+							group_list.push(group_item);
+							tokens.match('symbol', ',');
+						}
+						groups[group_name] = group_list;
+					}
+					yield {
+						span: [span_start,tokens.current()?.span[1] || span_start],
+						type: 'AutoVisGroup', name, groups
+					};
+				} continue loop;
 				case 'entitygroup': {
 					let name = tokens.expect_str('string');
 					let meta = undefined;
@@ -821,7 +867,7 @@ export function* parse(name: string, input: string): IterableIterator<FGDNode> {
 						args: args
 					};
 				} continue loop;
-				default: throw `Unexpected FGDNode ${node_type}.`;
+				default: throw `Unexpected FGDNode ${node_type} at ${span_start}.`;
 			}
 		}
 		

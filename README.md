@@ -107,6 +107,19 @@ source2013mp.fgd
 Teamfortress.fgd
 workshop_addoninfo_base.fgd
 wrath.fgd
+SECSGO.fgd
+SECSGO_legacy.fgd
+SECSS.fgd
+SECSS_legacy.fgd
+SEHL_base.fgd
+SEHL_DM.fgd
+SEHL_EP2.fgd
+SEHL_HL2.fgd
+SEHL_legacy.fgd
+SEL4D2.fgd
+SEL4D2_legacy.fgd
+SEP2.fgd
+SEP2_legacy.fgd
 ```
 
 These files cannot be distributed with this repository for (obvious) copyright reasons, but most of them can be obtained from <https://developer.valvesoftware.com/wiki/Category:FGD> and the [Trenchbroom repository](https://github.com/TrenchBroom/TrenchBroom/tree/master/app/resources/games).
