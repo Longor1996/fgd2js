@@ -442,7 +442,7 @@ export function parse_class_body(tokens: TokenStream, node: FGDClassDecl) {
 		}
 		
 		if(tokens.match('symbol', '=')) {
-			if(decl.class === 'flags' || decl.class === 'choices' || decl.class === 'tag_list') {
+			if(decl.class === 'integer' || decl.class === 'flags' || decl.class === 'choices' || decl.class === 'tag_list') {
 				tokens.expect('bracket', '[');
 				decl.choices = [];
 				while( ! tokens.match('bracket', ']')) {
