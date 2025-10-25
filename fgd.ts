@@ -97,6 +97,11 @@ export function *tokenizer(input: string): IterableIterator<Token, null> {
 		}
 		else if((char >= '0' && char <= '9') || (char == '-' && NUMBER.test(char_next))) {
 			while(NUMBER.test(input[++idx]));
+			if(NAME_START.test(input[idx])) {
+				while(NAME_PART.test(input[++idx]) && input[idx] !== undefined);
+				yield token("ident");
+				continue;
+			}
 			yield token("number");
 		}
 		else if(char == '-') {
