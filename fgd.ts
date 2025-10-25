@@ -338,7 +338,14 @@ export function parse_class_decl(tokens: TokenStream, node_kind: string): FGDCla
 		return node;
 	}
 	
-	tokens.expect('bracket', '[');
+	while(tokens.match('bracket', '[')) {
+		parse_class_body(tokens, node);
+	}
+	
+	return node;
+}
+
+export function parse_class_body(tokens: TokenStream, node: FGDClassDecl) {
 	while( ! tokens.match('bracket', ']')) {
 		let span_start = tokens.ahead()?.span[0] || 0;
 		let is_input = tokens.match('ident', 'input');
@@ -470,8 +477,6 @@ export function parse_class_decl(tokens: TokenStream, node_kind: string): FGDCla
 		decl.span[1] = tokens.current()?.span[1] || decl.span[0];
 		//console.log("Finished decl: ", decl);
 	}
-	
-	return node;
 }
 
 export function parse_prop_class(tokens: TokenStream, decl: FGDPropDecl) {
