@@ -72,41 +72,46 @@ The [Trenchbroom](https://trenchbroom.github.io/) [expression language](https://
 The following FGD files were tested:
 
 ```
+# From https://developer.valvesoftware.com/wiki/Category:FGD
 alienswarm.fgd
 alyx.fgd
 base.fgd
 blackmesa.fgd
 cs2.fgd
+garrysmod.fgd
+halflife2.fgd
+hammerplusplus.fgd
+hlvr.fgd
+infra.fgd
+left4dead2.fgd
+models_gamedata.fgd
+portal2.fgd
+quake.fgd
+quake2.fgd
+quake2arghrad.fgd
+source2003.fgd
+source2007.fgd
+source2009.fgd
+source2013mp.fgd
+workshop_addoninfo_base.fgd
+
+# From Trenchbroom default game configs
+wrath.fgd
 dday.fgd
 Episode 1.fgd
 Episode 2.fgd
 Episode 3.fgd
 Episode 4.fgd
-garrysmod.fgd
-halflife2.fgd
-hammerplusplus.fgd
 heretic2.fgd
 Hexen2.fgd
-hlvr.fgd
-infra.fgd
 kingpin.fgd
-left4dead2.fgd
-models_gamedata.fgd
 neverball.fgd
 pball2.fgd
-portal2.fgd
-quake.fgd
-quake2.fgd
-quake2arghrad.fgd
 Quetoo.fgd
 Quoth2.fgd
-source2003.fgd
-source2007.fgd
-source2009.fgd
-source2013mp.fgd
 Teamfortress.fgd
-workshop_addoninfo_base.fgd
-wrath.fgd
+
+# From https://github.com/Pinsplash/SEFGD
 SECSGO.fgd
 SECSGO_legacy.fgd
 SECSS.fgd
@@ -120,6 +125,29 @@ SEL4D2.fgd
 SEL4D2_legacy.fgd
 SEP2.fgd
 SEP2_legacy.fgd
-```
 
-These files cannot be distributed with this repository for (obvious) copyright reasons, but most of them can be obtained from <https://developer.valvesoftware.com/wiki/Category:FGD> and the [Trenchbroom repository](https://github.com/TrenchBroom/TrenchBroom/tree/master/app/resources/games).
+# From https://github.com/Erty-Gamedev/GoldSrcFGDCollection
+## WARN: Some of these FGD's have typos in them!
+bshift.fgd
+cs-cz.fgd
+cs-cz-ds.fgd
+CSCZDS_1.1.5.fgd
+counter-strike.fgd
+dod.fgd
+dmc.fgd
+firearms.fgd
+half-life.fgd
+op4.fgd
+ricochet.fgd
+spirit_v1.4.fgd
+spirit.fgd
+spirit_v1.2.fgd
+sven-coop4.8.fgd
+sven-coop-new_dsc.fgd
+tfc.fgd
+ts_fgd.fgd
+ts_1.5.fgd
+ts_2.1.fgd
+thdm.fgd
+zhlt.fgd
+```
