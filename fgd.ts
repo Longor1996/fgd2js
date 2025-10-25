@@ -164,9 +164,11 @@ export class TokenStream {
 		return this.#token = token.value;
 	}
 	
-	ahead(ahead: number = 1) {
+	ahead(ahead: number = 1, type?:TokenType, value?:string): Token|undefined {
 		const token = this.#tokens.ahead(ahead);
-		if(!token) throw `Expected token ahead, but reached EOF.`;
+		if(!token) return undefined;
+		if(type !== undefined && token.type !== type) return undefined;
+		if(value !== undefined && this.span(token) != value) return undefined;
 		return token;
 	}
 	behind(behind: number = 1) {
@@ -415,14 +417,14 @@ export function parse_class_body(tokens: TokenStream, node: FGDClassDecl) {
 			}
 		}
 		
-		if(tokens.match('symbol', ':')) {
+		if(tokens.ahead(2, 'string') && tokens.match('symbol', ':')) {
 			decl.title = tokens.literal();
 		}
-		if(tokens.match('symbol', ':')) {
-			if(tokens.match_not('symbol', ':')) {
-				decl.default = tokens.current_str();
-			}
+		
+		if(tokens.match('symbol', ':') && !tokens.ahead(1, 'symbol', ':')) {
+			decl.default = parse_expression(tokens);
 		}
+		
 		if(tokens.match('symbol', ':')) {
 			decl.description = tokens.literal();
 		}
